@@ -155,6 +155,7 @@ class Sequencing_Run():
         self.read_1_length = 0
         self.read_2_length = 0
         self.read_sets = []
+        self.type = ""
 
 class Animal():
     
@@ -473,6 +474,7 @@ def load_database(data_path=None):
                 
         sequencing_run.read_1_length = int(sequencing_run_row[1]["Read 1 Length"])
         sequencing_run.read_2_length = int(sequencing_run_row[1]["Read 2 Length"])
+        sequencing_run.type = sequencing_run_row[1]["Type"]
             
         SEQUENCING_RUNS.append(sequencing_run)
         SEQUENCING_RUNS_DICT[sequencing_run.name] = sequencing_run
