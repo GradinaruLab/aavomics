@@ -40,19 +40,19 @@ This package and all scripts rely on a fixed structure of files. To make sure th
 ```
 os.environ["AAVOMICS_PATH"] = MY_PATH
 ```
-### 2. Download metadata
+### 2. Download metadata and processed data
 
-The aavomics package relies on the sample and other metadata to be stored in CSV files in a custom format. This data maps the samples to their associated reads, metadata, read sets, and more. This is necessary to run any of the figure generation scripts. To download the metadata, put all .csv files from the CaltechDATA repository in a "database" subdirectory of your AAVOMICS_PATH
+The aavomics package relies on the sample and other metadata to be stored in CSV files in a custom format. This data maps the samples to their associated reads, metadata, read sets, and more. This is necessary to run any of the figure generation scripts. To download the metadata, run the "Download the database files" section of ```examples/Download Data.ipynb```.
 
-## From drocessed data
+## From processed data
 
-If you want to skip preprocessing and go straight to gene count matrices, you can download the pre-processed data from the CaltechDATA repository. Place all files directly into AAVOMICS_PATH.
+If you want to skip preprocessing and go straight to the final gene counts, you can skip right to the figure generation scripts after downloading the metadata and processed data.
 
 ## From raw data
 
 ### 1. Download raw data
 
-Raw FASTQ files can be downloaded from SRA submission SUB10281088, and must be placed within their respective cell_set folder. Transcriptome reads go in ```AAVOMICS_PATH/cell_sets/{CELL_SET_NAME}/transcriptome/reads``` and amplified viral transcript reads go in ```AAVOMICS_PATH/cell_sets/{CELL_SET_NAME}/virus/reads```
+Raw FASTQ files can be downloaded from SRA project https://www.ncbi.nlm.nih.gov/bioproject/758711, and must be placed within their respective cell_set folder. Transcriptome reads go in ```AAVOMICS_PATH/cell_sets/{CELL_SET_NAME}/transcriptome/reads``` and amplified viral transcript reads go in ```AAVOMICS_PATH/cell_sets/{CELL_SET_NAME}/virus/reads```
 
 ### 2. Generate custom references
 
