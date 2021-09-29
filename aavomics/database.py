@@ -155,6 +155,7 @@ class Sequencing_Run():
         self.read_1_length = 0
         self.read_2_length = 0
         self.read_sets = []
+        self.type = ""
 
 class Animal():
     
@@ -248,6 +249,10 @@ def load_database(data_path=None):
         data_path = DATA_PATH
         
     database_path = os.path.join(data_path, "database")
+
+    if not os.path.exists(database_path):
+        os.makedirs(database_path)
+
     database_file_paths = {}
     
     for file_name in os.listdir(database_path):
@@ -256,7 +261,20 @@ def load_database(data_path=None):
             database_file_paths[data_type] = os.path.join(database_path, file_name)
         else:
             print("Multiple database files found for %s. Using %s; ignoring others." % (data_type, database_file_paths[data_type]))
-            
+    
+    data_types = ["Alignments", "Animals", "Cell Sets", "Dissociation Runs", "Injections", "Read Sets", \
+                  "References", "Sequencing Libraries", "Sequencing Runs", "Templates", "Tissue Samples", "Vector Pools", "Vectors", "Viruses"]
+    
+    all_exist = True
+
+    for data_type in data_types:
+        if data_type not in database_file_paths:
+            all_exist = False
+            print("Missing '%s' database file. Did you download the data files yet?" % data_type)
+
+    if not all_exist:
+        return
+
     tissue_samples_df = read_tissue_samples_df(database_file_paths["Tissue Samples"])
     
     for tissue_sample_row in tissue_samples_df.iterrows():
@@ -473,11 +491,15 @@ def load_database(data_path=None):
                 
         sequencing_run.read_1_length = int(sequencing_run_row[1]["Read 1 Length"])
         sequencing_run.read_2_length = int(sequencing_run_row[1]["Read 2 Length"])
+        sequencing_run.type = sequencing_run_row[1]["Type"]
             
         SEQUENCING_RUNS.append(sequencing_run)
         SEQUENCING_RUNS_DICT[sequencing_run.name] = sequencing_run
 
 def read_linked_df(csv_file_path, linked_fields=None):
+
+    if not os.path.exists(csv_file_path):
+        print("'%s' does not exist, unable to load database file. Download or generate database files first." % csv_file_path)
     
     df = pandas.read_csv(csv_file_path, index_col=0, header=0)
     
